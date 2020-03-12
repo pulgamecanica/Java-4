@@ -1,15 +1,14 @@
 public class Time{
-	private int hh, mm, ss;
+	private int seconds;
 
 	public Time(int hh, int mm, int ss){
-	this.hh = hh;
-	this.mm = mm;
-	this.ss = ss;
+		seconds = getSeconds(hh, mm, ss);
 	}
 	public Time(String args){
-		hh = Integer.parseInt(getTheHH(args));
-		mm = Integer.parseInt(getTheMM(args));
-		ss = Integer.parseInt(getTheSS(args));
+		int hh = Integer.parseInt(getTheHH(args));
+		int mm = Integer.parseInt(getTheMM(args));
+		int ss = Integer.parseInt(getTheSS(args));
+		seconds = getSeconds(hh, mm, ss);
 	}
 	public String getTheHH(String arg){
 		return arg.substring(0,2);
@@ -20,74 +19,75 @@ public class Time{
 	public String getTheSS(String arg){
 		return arg.substring(6,8);
 	}
+	public int getSeconds(int hh, int mm, int ss){
+		return hh * 3600 + mm * 60 + ss;
+	}
 	//
 	public int getH(){
-		return hh;
+		return seconds/3600;
 	}
 	public int getM(){
-		return mm;
+		int result = seconds/60;
+		while(result >= 60){
+			result -= 60;
+		}
+		return result;
 	}
 	public int getS(){
-		return ss;
-
+		int result = seconds;
+		while(result >= 60){
+			result -= 60;
+		}
+		return result;
 	}
 	public void addH(int a){
-		if(hh + a > 24)
-			hh = 0;
-		else
-			hh += a;
+		seconds += a * 3600;
 	}
 	public void addM(int a){
-		if (mm + a > 60){
-			addH(1);
-			addM(a - 60);
-		}else{
-			mm += a;
-		}
+		seconds += a * 60; 
 	}
 	public void addS(int a){
-		if (ss + a > 60){
-			addM(1);
-			addS(a - 60);
-		}else{
-			ss += a;
-		}	
+		seconds += a;	
 	}
+
 	public boolean compareTime(Time t){
-		if(t.getH()<getH())
+		if(getH()<t.getH())
 			return false;
-		else if(t.getH()>getH())
+		else if(getH()>t.getH())
 			return true;
-		else if(t.getM()<getM())
+		else if(getM()<t.getM())
 			return false;
-		else if(t.getM()>getM())
+		else if(getM()>t.getM())
 			return true;
-		else if(t.getS()<getS())
+		else if(getS()<t.getS())
 			return false;
-		else if(t.getS()>getS())
+		else if(getS()>t.getS())
 			return true;
 		return true;
 	}
 	public Time addTimes(Time t){
-		addH(t.getH());
-		addM(t.getM());
-		addS(t.getS());
-		return this;
+		Time result = new Time(getH(), getM(), getS());
+		result.addH(t.getH());
+		result.addM(t.getM());
+		result.addS(t.getS());
+		return result;
 	}
 	public Time subTimes(Time t){
-		if(compareTime(t))
-			return t.subTimes(this);
-		else{
-			addH(-1*t.getH());
-			addM(-1*t.getM());
-			addS(-1*t.getS());
-			return this;
+		if(compareTime(t)){
+			Time result = new Time(getH(), getM(), getS());
+			result.addH(-1 * t.getH());
+			result.addM(-1 * t.getM());
+			result.addS(-1 * t.getS());
+			return result;
+		}else{
+			Time result = new Time(t.getH(), t.getM(), t.getS());
+			result.addH(-1 * getH());
+			result.addM(-1 * getM());
+			result.addS(-1 * getS());
+			return result;
 		}
 	}
-
-
 	public String toString(){
-		return "The time is: " + hh + ":" + mm + ":" + ss;
+		return "The time is: " + getH() + ":" + getM() + ":" + getS();
 	}
-
 }
