@@ -24,7 +24,7 @@ public class ClassB{
 	}
 	public static void main(String[] args){
 		ClassB a = new ClassB();
-		MatrixA m1 = new MatrixA(3, 3);
+		MatrixA m1 = new MatrixA(3);
 		MatrixA m2 = new MatrixA(3, 3);
 		//m1
 		m1.setValue(0, 0, 1);
