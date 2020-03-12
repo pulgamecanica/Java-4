@@ -19,9 +19,12 @@ public class Album{
 	public int getYear(){
 		return year;
 	}
-	// public Time getDuration(){
-	// 	//return Time;
-	// }
+	public Time getDuration(){
+		Time result = new Time(0,0,0);
+		for(Song x: songs)
+			result = result.addTimes(x.getDuration());
+	 	return result;
+	}
 	public void addSong(Song s){
 		songs.add(s);
 	}
@@ -70,12 +73,12 @@ public class Album{
 			System.err.println("ficheiro nao encontrado");
 		}
 	}
-	public String getSongName(String s){
+	public static String getSongName(String s){
 		String[] s2 = s.split(" ");
 		s2[0] = "";
 		return String.join(" ", s2);
 	}
-	public Time getSongTime(String s){
+	public static Time getSongTime(String s){
 		String[] s2 = s.split(" ");
 		Time t = new Time(s2[0]);
 		return t;
@@ -84,8 +87,53 @@ public class Album{
 		return "Album Name: " + name + " Year, " + year;
 	}
 
-	
-	public class Song{
+
+	//STATIC FICHEIRO
+	public static Album createAlbumFromFileWithoutArtists(File file){
+		String albumName = "";
+		int year = 0;
+		try {
+			Scanner scanner = new Scanner(file);
+			while(scanner.hasNextLine()){
+				String line1 = scanner.nextLine();
+				albumName = line1;
+				int line2 = scanner.nextInt();
+				year = line2;
+				Album album = new Album(albumName, year);
+				System.out.println(album);
+				addSongsFromCreatedFile(file, album);
+				return album;
+			}
+		}
+		catch (FileNotFoundException e) {
+			System.err.println("ficheiro nao encontrado");
+		}
+		Album album = new Album(albumName, year);
+		return album;
+	}
+	public static void addSongsFromCreatedFile(File file, Album album){
+		int start_songs = 1;
+		try {
+			Scanner scanner = new Scanner(file);
+			while(scanner.hasNextLine()) {
+				String line = scanner.nextLine();
+				if(line.isEmpty()){
+					start_songs -= 1;
+					line = scanner.nextLine();
+				}
+				if(start_songs == 0){
+					Song s = new Song(Album.getSongName(line), Album.getSongTime(line), album);
+					album.addSong(s);
+				}
+			}
+		}
+		catch (FileNotFoundException e) {
+			System.err.println("ficheiro nao encontrado");
+		}
+	}
+
+
+	public static class Song{
 		private final String name;
 		private final Time duration;
 		private final Album album;
