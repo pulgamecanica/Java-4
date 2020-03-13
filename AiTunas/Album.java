@@ -95,7 +95,7 @@ public class Album{
 	*/
 	
 	public String toString(){
-		return "Album Name: " + name + " Year, " + year + " , Artists: " + artists;
+		return "Album Name: " + name + " Year, " + year;
 	}
 
 	//STATIC FICHEIRO
@@ -132,7 +132,8 @@ public class Album{
 				}
 			}
 			Album album = new Album(albumName, year, artistsList);
-			//System.out.println(album);
+			for(Artist x: artistsList)
+				x.addAlbum(album);
 			addSongsFromCreatedFile(file, album);
 			return album;
 		}

@@ -3,6 +3,7 @@ import java.io.*;
 public class AiTunas{
 	private List<Album> albums = new ArrayList<Album>();	
 	private List<Artist> artists = new ArrayList<>();
+	private List<Playlist> playlists = new ArrayList<>();
 
 	public AiTunas load(File file){
 		File[] list = file.listFiles();

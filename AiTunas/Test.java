@@ -17,9 +17,22 @@ public class Test{
 		AiTunas aT = new AiTunas();
 		aT.load(file);
 		System.out.println(aT.getAllAlbums());
-		System.out.println("******************************SEARCH*********************************SEARCH*****************************************SEARCH************************");
-		System.out.println(aT.searchSongs("Battery"));
+		//System.out.println("******************************SEARCH*********************************SEARCH*****************************************SEARCH************************");
+		//System.out.println(aT.searchSongs("Battery"));
 		System.out.println("******************************ALBUMS********************************ALBUMS*****************************************ALBUMS************************");
 		System.out.println(Album.createAlbumFromFileWithoutArtists(file1));
+		System.out.println("******************************PlayList********************************PlayList*****************************************PlayList************************");
+		ArtistPlaylist apl = new ArtistPlaylist("BadAss Playlist");
+		System.out.println(aT.getAllArtists().get(0));
+		apl.addArtist(aT.getAllArtists().get(0));
+		System.out.println(aT.getAllArtists().get(0).getAlbums());
+		System.out.println(apl.getSongs());
+		ManualPlaylist mpl = new ManualPlaylist("Nice Play List Puma Blue");
+		for(Album a: aT.getAllAlbums())
+			for(Album.Song s: a.getSongs())
+				mpl.addSong(s);
+		System.out.println(mpl);	
+		System.out.println(mpl.getArtists());
+		System.out.println(mpl.getSongs());
 	}
 }
