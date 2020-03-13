@@ -1,7 +1,7 @@
 public class SongA{
 	private final String name;
 	private final Time duration;
-	private final Album album;
+	private Album album;
 
 	public SongA(String name, Time duration){
 		this.name = name;
@@ -13,7 +13,7 @@ public class SongA{
 	public Time getDuration(){
 		return duration;
 	}
-	public String getAlbum(){
+	public Album getAlbum(){
 		return album;
 	}
 	

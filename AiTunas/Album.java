@@ -5,25 +5,42 @@ public class Album{
 	private String name;
 	private int year;
 	private List<Song> songs = new ArrayList<Song>();	
+	private List<Artist> artists = new ArrayList<Artist>();
 
 	public Album(String name, int year){
 		this.name = name; 
 		this.year = year;
 	}
-	public Album load(File f){
-		return getInfoWithoutArtistsFromFile(f);
+
+	public Album(String name, int year, List<Artist> artists){
+		this.name = name; 
+		this.year = year;
+		this.artists = artists;
 	}
+	// public Album load(File f){
+	// 	return getInfoWithoutArtistsFromFile(f);
+	// }
 	public String getName(){
 		return name;
 	}
 	public int getYear(){
 		return year;
 	}
+	public List<Artist> getArtists(){
+		return artists;
+	}
+	public List<Song> getSongs(){
+		return songs;
+	}
+
 	public Time getDuration(){
 		Time result = new Time(0,0,0);
 		for(Song x: songs)
 			result = result.addTimes(x.getDuration());
 	 	return result;
+	}
+	public void addArtist(Artist a){
+		artists.add(a);
 	}
 	public void addSong(Song s){
 		songs.add(s);
@@ -31,6 +48,8 @@ public class Album{
 	public void removeSong(Song s){
 		songs.remove(s);
 	}
+	//*
+	/*
 	public Album getInfoWithoutArtistsFromFile(File file){
 		String albumName = "";
 		int year = 0;
@@ -73,37 +92,49 @@ public class Album{
 			System.err.println("ficheiro nao encontrado");
 		}
 	}
+	*/
+	
+	public String toString(){
+		return "Album Name: " + name + " Year, " + year + " , Artists: " + artists;
+	}
+
+	//STATIC FICHEIRO
 	public static String getSongName(String s){
 		String[] s2 = s.split(" ");
 		s2[0] = "";
-		return String.join(" ", s2);
+		String result = String.join(" ", s2);
+		return result.substring(1, result.length());
 	}
 	public static Time getSongTime(String s){
 		String[] s2 = s.split(" ");
 		Time t = new Time(s2[0]);
 		return t;
 	}
-	public String toString(){
-		return "Album Name: " + name + " Year, " + year;
-	}
-
-
-	//STATIC FICHEIRO
 	public static Album createAlbumFromFileWithoutArtists(File file){
+		boolean stopArtists = false;
+		List<Artist> artistsList = new ArrayList<>();
 		String albumName = "";
 		int year = 0;
 		try {
 			Scanner scanner = new Scanner(file);
-			while(scanner.hasNextLine()){
-				String line1 = scanner.nextLine();
-				albumName = line1;
-				int line2 = scanner.nextInt();
-				year = line2;
-				Album album = new Album(albumName, year);
-				System.out.println(album);
-				addSongsFromCreatedFile(file, album);
-				return album;
+			String line1 = scanner.nextLine();
+			albumName = line1;
+			int line2 = scanner.nextInt();
+			year = line2;
+			String line = scanner.nextLine();
+			while(scanner.hasNextLine() && stopArtists != true) {
+				line = scanner.nextLine();
+				if(line.isEmpty())
+					stopArtists = true;
+				else{
+				Artist a = new Artist(line);
+				artistsList.add(a);
+				}
 			}
+			Album album = new Album(albumName, year, artistsList);
+			//System.out.println(album);
+			addSongsFromCreatedFile(file, album);
+			return album;
 		}
 		catch (FileNotFoundException e) {
 			System.err.println("ficheiro nao encontrado");
@@ -153,7 +184,7 @@ public class Album{
 			return album;
 		}
 		public String toString(){
-			return "Song name: " + name + " ,duration: " + duration + " ,Album: " + album;
+			return "Song name: " + name + " ,duration: " + duration + " , Album: " + album;
 		}
 	}
 }
