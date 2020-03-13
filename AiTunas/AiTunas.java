@@ -2,6 +2,7 @@ import java.util.*;
 import java.io.*;
 public class AiTunas{
 	private List<Album> albums = new ArrayList<Album>();	
+	private List<Artist> artists = new ArrayList<>();
 
 	public AiTunas load(File file){
 		File[] list = file.listFiles();
@@ -9,6 +10,9 @@ public class AiTunas{
 			if (!f.isDirectory())
         		albums.add(Album.createAlbumFromFileWithoutArtists(f));
         }
+        for(Album a: albums)
+        	for(Artist x: a.getArtists())
+        		artists.add(x);
         return this;
 	}
 
