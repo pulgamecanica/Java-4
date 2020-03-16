@@ -17,9 +17,12 @@ public class Album{
 		this.year = year;
 		this.artists = artists;
 	}
-	// public Album load(File f){
-	// 	return getInfoWithoutArtistsFromFile(f);
-	// }
+	public Album load(File f, List<Artist> artists){
+		for(Artist x: artists)
+			this.artists.add(x);
+		//STUPID ACTION; BECAUSE THEY ALSO ASK US TO CONCIDER ARTISTS FROM THE FILE; THIS WOULD REPEAT THE ACTION;
+		return createAlbumFromFileWithoutArtists(f);
+	}
 	public String getName(){
 		return name;
 	}
