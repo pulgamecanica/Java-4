@@ -6,12 +6,10 @@ public class Album{
 	private int year;
 	private List<Song> songs = new ArrayList<Song>();	
 	private List<Artist> artists = new ArrayList<Artist>();
-
 	public Album(String name, int year){
 		this.name = name; 
 		this.year = year;
 	}
-
 	public Album(String name, int year, List<Artist> artists){
 		this.name = name; 
 		this.year = year;
@@ -35,7 +33,6 @@ public class Album{
 	public List<Song> getSongs(){
 		return songs;
 	}
-
 	public Time getDuration(){
 		Time result = new Time(0,0,0);
 		for(Song x: songs)
@@ -96,11 +93,9 @@ public class Album{
 		}
 	}
 	*/
-	
 	public String toString(){
 		return "Album Name: " + name + " Year, " + year;
 	}
-
 	//STATIC FICHEIRO
 	public static String getSongName(String s){
 		String[] s2 = s.split(" ");
@@ -113,7 +108,7 @@ public class Album{
 		Time t = new Time(s2[0]);
 		return t;
 	}
-	public static Album createAlbumFromFileWithoutArtists(File file){
+	public Album createAlbumFromFileWithoutArtists(File file){
 		boolean stopArtists = false;
 		List<Artist> artistsList = new ArrayList<>();
 		String albumName = "";
@@ -146,7 +141,7 @@ public class Album{
 		Album album = new Album(albumName, year);
 		return album;
 	}
-	public static void addSongsFromCreatedFile(File file, Album album){
+	public void addSongsFromCreatedFile(File file, Album album){
 		int start_songs = 1;
 		try {
 			Scanner scanner = new Scanner(file);
@@ -167,8 +162,7 @@ public class Album{
 		}
 	}
 
-
-	public static class Song{
+	public class Song{
 		private final String name;
 		private final Time duration;
 		private final Album album;

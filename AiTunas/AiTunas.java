@@ -9,14 +9,46 @@ public class AiTunas{
 		File[] list = file.listFiles();
 		for (File f : list){
 			if (!f.isDirectory())
-        		albums.add(Album.createAlbumFromFileWithoutArtists(f));
+        		albums.add(createAlbum(f));
         }
         for(Album a: albums)
         	for(Artist x: a.getArtists())
         		artists.add(x);
         return this;
 	}
-
+	public Album createAlbum(File file){
+		boolean stopArtists = false;
+		List<Artist> artistsList = new ArrayList<>();
+		String albumName = "";
+		int year = 0;
+		try {
+			Scanner scanner = new Scanner(file);
+			String line1 = scanner.nextLine();
+			albumName = line1;
+			int line2 = scanner.nextInt();
+			year = line2;
+			String line = scanner.nextLine();
+			while(scanner.hasNextLine() && stopArtists != true) {
+				line = scanner.nextLine();
+				if(line.isEmpty())
+					stopArtists = true;
+				else{
+				Artist a = new Artist(line);
+				artistsList.add(a);
+				}
+			}
+			Album album = new Album(albumName, year, artistsList);
+			for(Artist x: artistsList)
+				x.addAlbum(album);
+			album.addSongsFromCreatedFile(file, album);
+			return album;
+		}
+		catch (FileNotFoundException e) {
+			System.err.println("ficheiro nao encontrado");
+		}
+		Album album = new Album(albumName, year);
+		return album;
+	}
 	public List<Artist> getAllArtists(){
 		 List<Artist> result = new ArrayList<>(); 
 		for(Album x: albums)
