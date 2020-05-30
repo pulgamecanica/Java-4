@@ -26,7 +26,8 @@ public class ManualPlaylist implements Playlist{
 	public void addSong(Album.Song s){
 		songs.add(s);
 		for(Artist a: s.getAlbum().getArtists())
-			artists.add(a);
+			if(!artists.contains(a))
+				artists.add(a);
 	}
 	public String toString(){
 		return ">->->->->->->->->->->This PlayLis, by: " + artists + " With a duration of: " + getDuration();
